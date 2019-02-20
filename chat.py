@@ -10,8 +10,8 @@ all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu"
         "sp19-cs425-g04-07.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
         "sp19-cs425-g04-10.cs.illinois.edu" ]
 
-server_checked = 0
-client_checked = 0
+server_checked = False
+client_checked = False
 
 connections = []
 
@@ -42,7 +42,8 @@ class Server:
             # break out the loop if all is connected
             if (count == num):
                 print("server_checked")
-                server_checked = 1
+                global server_checked
+                server_checked = True
                 break
 
 
@@ -94,7 +95,8 @@ def connectOther(port, num):
         # break out while loop
         if count == num:
             print("client_checked")
-            client_checked = 1
+            global client_checked
+            client_checked = True
             break
 
     # sending message to the socket
@@ -124,10 +126,9 @@ def main():
     client.start()
 
     while True:
-        if server_checked == 1 and client_checked == 1:
+        if server_checked and client_checked:
             print("READY")
             break
-        print(str(server_checked) + str(client_checked))
 
     # a signal handler here?
 
