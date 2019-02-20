@@ -110,9 +110,9 @@ def handler(c, a):
                 print(hostName + ': ' + msg)
             # mutex to keep received thread-safe
             # remove handled info from received
-        # mutex.acquire()
-        # received.remove(msg)
-        # mutex.release()
+        mutex.acquire()
+        received.remove(msg)
+        mutex.release()
 
 
 
