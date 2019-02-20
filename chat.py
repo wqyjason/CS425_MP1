@@ -36,7 +36,6 @@ class Server:
                         # self.connections.append(c)
                         # self.peers.append(a[0])
         print(str(a[0]) + ':' + str(a[1]), "connected")
-        break;
         
         self.handler(c, a)
                         # self.sendPeers()
