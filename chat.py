@@ -236,7 +236,6 @@ def connectServer(port, num, name):
         mutex_r.release()
 
         # update timestamp
-        global timestamp
         timestamp[p_num] += 1
 
         sendMsg(timestamp, msg, p_num)
@@ -258,6 +257,7 @@ def main():
     num  = args.number - 1
 
     # initialize hold back queue
+    global timestamp
     timestamp = [0] * (num + 1)
 
     server = threading.Thread(target=buildServer, args=(port, num))
