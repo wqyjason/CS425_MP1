@@ -72,7 +72,7 @@ def handler(c, a):
         data = c.recv(1024)
         msg = str(data, 'utf-8')
         # get the name from each node and store them
-        if "NAME&" in mgs:
+        if "NAME&" in msg:
             hostName = msg.split('&')[1]
         # send the message
         else:
