@@ -189,7 +189,7 @@ def connectServer(port, num, name):
 
     # sending message to the socket
     while True:
-        msg = name + ": "input("")
+        msg = name + ": " + input("")
         global received
         # append message to received when sender send it
         mutex.acquire()
