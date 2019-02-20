@@ -110,9 +110,9 @@ def handler(c, a):
                 print(hostName + ': ' + msg)
             # mutex to keep received thread-safe
             # remove handled info from received
-        mutex.acquire()
-        received.remove(msg)
-        mutex.release()
+        # mutex.acquire()
+        # received.remove(msg)
+        # mutex.release()
 
 
 
@@ -195,7 +195,8 @@ def connectServer(port, num, name):
         mutex.acquire()
         received.append(msg)
         mutex.release()
-        sendMsg(msg)
+        # sendMsg(msg)
+        sockForSend[0].send(bytes(msg, 'utf-8'))
 
 
 def main():
