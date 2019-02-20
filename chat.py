@@ -147,9 +147,12 @@ def main():
     # port = args.port
     # num  = args.number
     # all = []
-    all = ["sp19-cs425-g04-01", "sp19-cs425-g04-02", "sp19-cs425-g04-03"]
+    all = ["qingyuw2@sp19-cs425-g04-01", "qingyuw2@sp19-cs425-g04-02", "qingyuw2@sp19-cs425-g04-03"]
+    local = socket.gethostname()
+    print(local)
     for i in all:
-        start(i, 10006)
+        if i != local:
+            start(i, 10006)
 
 
 
