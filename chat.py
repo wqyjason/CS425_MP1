@@ -166,6 +166,7 @@ def main():
             startServer(port)
 
     client = threading.Thread(target = connectOther, args=(port, num))
+    client.start()
 
 
 # entry point for application
