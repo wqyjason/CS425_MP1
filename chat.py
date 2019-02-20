@@ -158,7 +158,7 @@ def main():
     # name = args.name
     port = args.port
     # num  = args.number
-    num = 3
+    num = 2
 
     local = socket.gethostname()
     for i in all:
