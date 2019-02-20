@@ -96,7 +96,7 @@ def start(ip, port):
 
     host = socket.gethostbyname(ip)
     # create one server and one client for each node
-    sThread = threading.Thread(target=Server, args=(port))
+    sThread = threading.Thread(target=Server, args=(port,))
     cThread = threading.Thread(target=Client, args=(host, port))
     # append the threads to array 
     servers.append(sThread)
