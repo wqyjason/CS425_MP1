@@ -115,20 +115,19 @@ def connectOther(port, num):
         for i in all:
             if i != local:
                 try:
+                    host = socket.gethostbyname(i)
                     sockForSend.connect((host, port))
                 except Exception as e:
-                    # continue to next loop is connect failed
+                    # continue to next loop if connect failed
                     continue
                 
                 count += 1
 
                 # break if all nodes are connected
                 if count == num:
-                    print("break out")
                     break
         # break out while loop
         if count == num:
-            print("break out")
             break
 
     # start sending message to the socket
