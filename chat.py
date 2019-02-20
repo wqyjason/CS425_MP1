@@ -94,6 +94,7 @@ def handler(c, a):
         if "NAME&" in msg:
             print("adding name...")
             hostName = msg.split('&')[1]
+            continue
         # send the message
         elif msg not in received:
             # mutex to keep received thread-safe
@@ -108,11 +109,11 @@ def handler(c, a):
             # avoid left bug
             if msg != '':
                 print(hostName + ': ' + msg)
-        # mutex to keep received thread-safe
-        # remove handled info from received
-        mutex.acquire()
-        received.remove(msg)
-        mutex.release()
+            # mutex to keep received thread-safe
+            # remove handled info from received
+            mutex.acquire()
+            received.remove(msg)
+            mutex.release()
 
 
 
