@@ -242,7 +242,7 @@ def connectServer(port, num, name):
         timestamp[p_num] += 1
         mutex_t.release()
 
-        print("print once")
+        print(timestamp[p_num])
 
         sendMsg(timestamp, msg, p_num)
         # for multicast test
