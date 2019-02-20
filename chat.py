@@ -7,7 +7,7 @@ from random import randint
 
 all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu",
         "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
-        "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
+        "sp19-cs425-g04-07.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
         "sp19-cs425-g04-10.cs.illinois.edu" ]
 
 server_checked = 0
@@ -38,11 +38,11 @@ class Server:
             cThread.daemon = True
             cThread.start()
             connections.append(c)
-            print(str(a[0]) + ':' + str(a[1]), "connected")
             count += 1
             # break out the loop if all is connected
             if (count == num):
                 print("server_checked")
+                server_checked = 1
                 break
 
 
@@ -52,7 +52,7 @@ class Server:
             print(str(data,'utf-8'))
             if not data:
                 # print fail message
-                fail = str(a[0]) + ':' + str(a[1]) + "disconnected"
+                fail = str(a[0]) + ':' + str(a[1]) + " has left"
                 print(fail)
                 c.close()
                 break
@@ -94,6 +94,7 @@ def connectOther(port, num):
         # break out while loop
         if count == num:
             print("client_checked")
+            client_checked = 1
             break
 
     # sending message to the socket
@@ -121,6 +122,11 @@ def main():
     # start server and client
     server.start()
     client.start()
+
+    while True:
+        if server_checked == 1 and client_checked == 1:
+            print("READY")
+            break
 
     # a signal handler here?
 
