@@ -160,6 +160,7 @@ def handler(c, a):
 
         # wait until condition meets for hold-back
         while True:
+            print("stuck")
             if lessThan(sender_stamp, timestamp, sender_index):
 
                 # remove finished info from hold-back queue
