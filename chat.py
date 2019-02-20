@@ -11,7 +11,6 @@ from random import randint
 # will detect its failure. 
 
 # TO DO !important: implement a reliable multicast and a causal ordering
-#                   adding name to each nodes
 
 
 # hard-coded IP addresses for VM
@@ -29,6 +28,10 @@ connections = []
 
 # hold all the socket to send message
 sockForSend = []
+
+# dictionary for host names
+hostName = {}
+
 
 # build server for other nodes
 def buildServer(port, num):
@@ -64,19 +67,26 @@ def buildServer(port, num):
 # handler for receiving messages
 # TO DO: adding multicast & causal ordering here?
 def handler(c, a):
+    hostName = None
     while True:
         data = c.recv(1024)
-        print(str(data,'utf-8'))
+        msg = str(data, 'utf-8')
+        # get the name from each node and store them
+        if "NAME&" in mgs:
+            hostName = msg.split('&')[1]
+        # send the message
+        else:
+            print(hostName + ': ' + str(data,'utf-8'))
         if not data:
             # print fail message
-            fail = str(a[0]) + ':' + str(a[1]) + " has left"
+            fail = hostName + " has left"
             print(fail)
             c.close()
             break
 
 
 # connect to other nodes' server using (n-1) sockets
-def connectServer(port, num):
+def connectServer(port, num, name):
     # initialize num sockets for sending
     for i in range(num):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -112,6 +122,11 @@ def connectServer(port, num):
             client_checked = True
             break
 
+    # send the name of this node to every server
+    msg = "NAME&" + name
+    for sock in sockForSend:
+        sock.send(bytes(msg), 'utf-8')
+
     # sending message to the socket
     while True:
         msg = input("")
@@ -119,21 +134,19 @@ def connectServer(port, num):
             sock.send(bytes(msg, 'utf-8'))
 
 
-
-# TO DO: need to implement name
 def main():
     # parse the command line
     parser = argparse.ArgumentParser(description = 'Distributed Chat')
-    # parser.add_argument('name', type=str)
+    parser.add_argument('name', type=str)
     parser.add_argument('port', type=int)
     parser.add_argument('number', type=int)
     args = parser.parse_args()
-    # name = args.name
+    name = args.name
     port = args.port
     num  = args.number - 1
 
     server = threading.Thread(target=buildServer, args=(port, num))
-    client = threading.Thread(target=connectServer, args=(port, num))
+    client = threading.Thread(target=connectServer, args=(port, num), kwargs={"name": name})
 
     # start server and client
     server.start()
