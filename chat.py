@@ -238,11 +238,13 @@ def connectServer(port, num, name):
         mutex_r.release()
 
         # update timestamp
+        mutex_t.acquire()
         timestamp[p_num] += 1
+        mutex_t.release()
+
+        print("print once")
 
         sendMsg(timestamp, msg, p_num)
-
-
         # for multicast test
         # sockForSend[0].send(bytes(msg, 'utf-8'))
 
