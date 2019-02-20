@@ -130,21 +130,6 @@ def sendMsg(msg):
         sock.send(bytes(msg, 'utf-8'))
 
 
-
-# this should be run when other clients
-# received the message
-def receiver(m, sender):
-    # for integrity
-    if (m not in received):
-        received.append(m)
-        # sender don't have to send to others again
-        if (name != sender):
-            # forward message to other clients
-            sendMsg(m)
-        # deliver the message to node's dispaly
-        deliver(m)
-
-
 # connect to other nodes' server using (n-1) sockets
 def connectServer(port, num, name):
     # initialize num sockets for sending
@@ -195,8 +180,9 @@ def connectServer(port, num, name):
         mutex.acquire()
         received.append(msg)
         mutex.release()
-        # sendMsg(msg)
-        sockForSend[0].send(bytes(msg, 'utf-8'))
+        sendMsg(msg)
+        # for multicast test
+        # sockForSend[0].send(bytes(msg, 'utf-8'))
 
 
 def main():
@@ -229,4 +215,3 @@ def main():
 # entry point for application
 if __name__ == '__main__':
     main()
-
