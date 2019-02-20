@@ -10,6 +10,8 @@ class Server:
         def __init__(self, port):
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+                # create server
                 host = socket.gethostname();
                 sock.bind((host, port))
                 sock.listen(1)
@@ -60,6 +62,8 @@ class Client:
     def __init__(self, host, port):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+            # connect to the target server
             sock.connect((host, port))
             iThread = threading.Thread(target=self.sendMsg, args = (sock,))
             iThread.daemon = True
@@ -100,6 +104,7 @@ def start(ip, port):
 
     # start the thread
     sThread.start()
+    time.sleep(5)
     cThread.start()
 
 
