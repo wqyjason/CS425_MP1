@@ -11,7 +11,7 @@ all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu"
             # "sp19-cs425-g04-10.cs.illinois.edu" ]
 
 
-servers = []
+connections = []
 
 class Server:
     # peers = []
@@ -33,14 +33,15 @@ class Server:
         # since only bind with one client, not need for while loop
         while True:
             c, a = sockForListen.accept()
+            cThread = threading.Thread(target=self.handler, args = (c,a))
+            cThread.daemon = True
+            cThread.start()
+            connections.append(c)
             print(str(a[0]) + ':' + str(a[1]), "connected")
             count += 1
             if (count == num):
                 print("server set up")
                 break
-
-        
-        self.handler(c, a)
 
 
     def handler(self, c, a):
@@ -107,6 +108,7 @@ def main():
     # name = args.name
     port = args.port
     num  = args.number - 1
+    print(str(num))
 
     server = threading.Thread(target=Server, args=(port, num))
     client = threading.Thread(target=connectOther, args=(port, num))
