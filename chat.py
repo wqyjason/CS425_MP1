@@ -151,7 +151,6 @@ def connectServer(port, num, name):
     for i in range(num):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        global sockForSend
         sockForSend.append(sock)
 
     # count how many server connected
@@ -165,7 +164,6 @@ def connectServer(port, num, name):
                 try:
                     # connect each socket to each server
                     host = socket.gethostbyname(i)
-                    global sockForSend
                     sockForSend[count].connect((host, port))
                     # add the server to the array
                     connected.append(i)
