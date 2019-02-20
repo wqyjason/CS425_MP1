@@ -127,6 +127,7 @@ def main():
         if server_checked == 1 and client_checked == 1:
             print("READY")
             break
+        print(str(server_checked) + str(client_checked))
 
     # a signal handler here?
 
