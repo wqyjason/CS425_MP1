@@ -87,6 +87,7 @@ def connectOther(port, num):
                     break
         # break out while loop
         if count == num:
+            print("all set")
             break
 
     # start sending message to the socket
