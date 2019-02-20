@@ -159,6 +159,7 @@ def handler(c, a):
         # wait until condition meets for hold-back
         while True:
             if lessThan(sender_stamp, timestamp, sender_index):
+                print("everytime")
                 # remove finished info from hold-back queue
                 holdBack.remove(info)
                  # avoid left bug
@@ -242,7 +243,7 @@ def connectServer(port, num, name):
         timestamp[p_num] += 1
         mutex_t.release()
 
-        for p in timestamp: print(p)
+        # for p in timestamp: print(p)
 
         sendMsg(timestamp, msg, p_num)
         # for multicast test
