@@ -44,7 +44,8 @@ class Server:
             # break out the loop if all is connected
             if (count == num):
                 server_checked = True
-                print("server checked")
+                if server_checked and client_checked:
+                    print("READY")
                 break
 
 
@@ -96,7 +97,8 @@ def connectOther(port, num):
         # break out while loop
         if count == num:
             client_checked = True
-            print("client checked")
+            if server_checked and client_checked:
+                print("READY")
             break
 
     # sending message to the socket
@@ -124,12 +126,6 @@ def main():
     # start server and client
     server.start()
     client.start()
-
-    # print READY if all is connected
-    while True:
-        if server_checked and client_checked:
-            print("READY")
-            break
     
 
     # a signal handler here?
