@@ -107,7 +107,7 @@ def handler(c, a):
 
             # avoid left bug
             if msg != '':
-                print(hostName + ': ' + msg)
+                print(msg)
             # mutex to keep received thread-safe
             # remove handled info from received
         # mutex.acquire()
@@ -189,7 +189,7 @@ def connectServer(port, num, name):
 
     # sending message to the socket
     while True:
-        msg = input("")
+        msg = name + ": "input("")
         global received
         # append message to received when sender send it
         mutex.acquire()
