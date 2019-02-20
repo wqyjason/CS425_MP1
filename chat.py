@@ -25,16 +25,20 @@ class Server:
         sockForListen.bind((host, port))
         sockForListen.listen(1)
         print("server running....")
-                # while True:
+        c = 0
+        while True:
+            if (c != 0):
+                break
 
-        # since only bind with one client, not need for while loop
-        c, a = sockForListen.accept()
+            # since only bind with one client, not need for while loop
+            c, a = sockForListen.accept()
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
                         # cThread.start()
                         # self.connections.append(c)
                         # self.peers.append(a[0])
-        print(str(a[0]) + ':' + str(a[1]), "connected")
+            print(str(a[0]) + ':' + str(a[1]), "connected")
+        
         self.handler(c, a)
                         # self.sendPeers()
                         # 
@@ -112,6 +116,7 @@ def connectOther(port, num):
     while True:
         for i in all:
             if i != local:
+                print("connect looping...")
                 try:
                     sockForSend.connect((host, port))
                 except Exception as e:
