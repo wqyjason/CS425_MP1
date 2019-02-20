@@ -57,7 +57,7 @@ mutex_t = Lock()
 # helper to get process number
 def getN():
     host = socket.gethostname()
-    ret = host.split()[3][1]
+    ret = host.split('-')[3][1]
     if ret == 0:
         return 9
     else:
