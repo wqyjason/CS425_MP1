@@ -43,16 +43,16 @@ class Server:
     def handler(self, c, a):
         while True:
             data = c.recv(1024)
-                        # multicast sender here
-                        # for connection in self.connections:
-                        #         connection.send(bytes(data))
+            # multicast sender here
+            # for connection in self.connections:
+            #         connection.send(bytes(data))
             print(str(data,'utf-8'))
-                if not data:
-                    # print fail message
-                    fail = str(a[0]) + ':' + str(a[1]) + "disconnected"
-                    print(fail)
-                    c.close()
-                    break
+            if not data:
+                # print fail message
+                fail = str(a[0]) + ':' + str(a[1]) + "disconnected"
+                print(fail)
+                c.close()
+                break
 
 
         # def sendPeers(self):
