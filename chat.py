@@ -63,7 +63,7 @@ def buildServer(port, num):
 
 # handler for receiving messages
 # TO DO: adding multicast & causal ordering here?
-def handler(self, c, a):
+def handler(c, a):
     while True:
         data = c.recv(1024)
         print(str(data,'utf-8'))
