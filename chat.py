@@ -26,11 +26,8 @@ class Server:
         sockForListen.bind((host, port))
         sockForListen.listen(1)
         print("server running....")
-        c = 0
+        
         while True:
-            if (c != 0):
-                break
-
             # since only bind with one client, not need for while loop
             c, a = sockForListen.accept()
             print(c)
