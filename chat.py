@@ -16,7 +16,6 @@ client_checked = False
 connections = []
 
 class Server:
-    # peers = []
     def __init__(self, port, num):
         # set up sock for listening one node
         sockForListen = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +43,7 @@ class Server:
             # break out the loop if all is connected
             if (count == num):
                 server_checked = True
-                if server_checked and client_checked:
+                if server_checked == True and client_checked == True:
                     print("READY")
                 break
 
@@ -97,7 +96,7 @@ def connectOther(port, num):
         # break out while loop
         if count == num:
             client_checked = True
-            if server_checked and client_checked:
+            if server_checked == True and client_checked == True:
                 print("READY")
             break
 
