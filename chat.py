@@ -167,7 +167,7 @@ def handler(c, a):
 
                 # update timestamp
                 mutex_t.acquire()
-                timestamp[getN()] += 1
+                timestamp[sender_index] += 1
                 mutex_t.release()
 
                 break
