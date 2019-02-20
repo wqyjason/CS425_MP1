@@ -5,10 +5,10 @@ import time
 import argparse
 from random import randint
 
-all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu" ]
-            # "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
-            # "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
-            # "sp19-cs425-g04-10.cs.illinois.edu" ]
+all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu",
+        "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
+        "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
+        "sp19-cs425-g04-10.cs.illinois.edu" ]
 
 server_checked = 0
 client_checked = 0
@@ -42,7 +42,7 @@ class Server:
             count += 1
             # break out the loop if all is connected
             if (count == num):
-                server_checked = 1
+                print("server_checked")
                 break
 
 
@@ -93,7 +93,7 @@ def connectOther(port, num):
                     break
         # break out while loop
         if count == num:
-            client_checked = 1
+            print("client_checked")
             break
 
     # sending message to the socket
@@ -121,10 +121,6 @@ def main():
     # start server and client
     server.start()
     client.start()
-    
-    while True:
-        if server_checked == 1 and client_checked == 1:
-            print("READY")
 
     # a signal handler here?
 
