@@ -126,7 +126,7 @@ def connectServer(port, num, name):
     # send the name of this node to every server
     msg = "NAME&" + name
     for sock in sockForSend:
-        sock.send(bytes(msg), 'utf-8')
+        sock.send(bytes(msg, 'utf-8'))
 
     # sending message to the socket
     while True:
