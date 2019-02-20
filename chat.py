@@ -118,7 +118,6 @@ def connectOther(port, num):
                 try:
                     print("connect frozen")
                     sockForSend.connect((host, port))
-                    print("connect error")
                 except Exception as e:
                     # continue to next loop is connect failed
                     continue
@@ -157,7 +156,7 @@ def main():
     # name = args.name
     port = args.port
     # num  = args.number
-    num = 2
+    num = 1
 
     local = socket.gethostname()
     for i in all:
