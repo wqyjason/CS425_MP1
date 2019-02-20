@@ -156,8 +156,6 @@ def handler(c, a):
             # B-multicast to any other nodes
             sendMsg(sender_stamp, msg, sender_index)
 
-        print("everytime")
-
         # wait until condition meets for hold-back
         # while True:
         if lessThan(sender_stamp, timestamp, sender_index):
