@@ -61,13 +61,20 @@ class Server:
 # send message to target socket
 def sendMsg(sock):
     while True:
-        sock.send(bytes(input(""), 'utf-8'))
+        for i in sock:
+            i.send(bytes(input(""), 'utf-8'))
 
-# connect to other nodes' server
+
+sockForSend = []
+
+# connect to other nodes' server using (n-1) sockets
 def connectOther(port, num):
-    # set up the socket for sending message
-    sockForSend = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sockForSend.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    # initialize num sockets for sending
+    for i in range(num):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sockForSend.append(sock)
+
     # count how many server connected
     count = 0
     local = socket.gethostname()
@@ -76,20 +83,17 @@ def connectOther(port, num):
         for i in all:
             if i != local:
                 try:
+                    # connect each socket to each server
                     host = socket.gethostbyname(i)
-                    sockForSend.connect((host, port))
+                    sockForSend[count].connect((host, port))
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
                 
                 count += 1
 
-                if count == 2:
-                    print("can do")
-
                 # break if all nodes are connected
                 if count == num:
-                    print("all set inside")
                     break
         # break out while loop
         if count == num:
