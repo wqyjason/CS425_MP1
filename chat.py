@@ -5,8 +5,7 @@ import time
 import argparse
 from random import randint
 
-all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu"]
-# , "sp19-cs425-g04-03.cs.illinois.edu" ]
+all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu" ]
             # "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
             # "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
             # "sp19-cs425-g04-10.cs.illinois.edu" ]
@@ -27,21 +26,13 @@ class Server:
         sockForListen.listen(1)
         print("server running....")
 
-        # while True:
         # since only bind with one client, not need for while loop
         c, a = sockForListen.accept()
-                        # cThread = threading.Thread(target=self.handler, args = (c,a))
-                        # cThread.daemon = True
-                        # cThread.start()
-                        # self.connections.append(c)
-                        # self.peers.append(a[0])
         print(str(a[0]) + ':' + str(a[1]), "connected")
         
         self.handler(c, a)
-                        # self.sendPeers()
-                        # 
-                        # if (len(self.connections) == num):
-                        #     print("Ready")
+
+
     def handler(self, c, a):
         while True:
             data = c.recv(1024)
@@ -55,47 +46,6 @@ class Server:
                 print(fail)
                 c.close()
                 break
-
-
-        # def sendPeers(self):
-        #         p = ""
-        #         for peer in self.peers:
-        #                 p = p + peer + ","
-        #         for connection in self.connections:
-        #                 connection.send(b'\x11' + bytes(p, "utf-8"))
-
-# class Client:
-    
-#     def sendMsg(self, sock):
-#             while True:
-#                     sock.send(bytes(input(""), 'utf-8'))
-#     def __init__(self, host, port):
-#             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#             sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-#             # connect to the target server
-#             sock.connect((host, port))
-#             iThread = threading.Thread(target=self.sendMsg, args = (sock,))
-#             iThread.daemon = True
-#             iThread.start()
-#             while True:
-#                     # multicast receiver here
-#                     data = sock.recv(1024)
-#                     if not data:
-#                             break;
-#                     if data[0:1] == b'\x11':
-#                             self.updatePeers(data[1:])
-#                     else:
-#                     print(str(data,'utf-8'))
-
-
-#     def updatePeers(self, peerData):
-#             p2p.peers = str(peerData, "utf-8").split(",")[:-1]
-
-# class p2p:
-#         peers = ['127.0.0.1']
-
-
 
 # send message to target socket
 def sendMsg(sock):
@@ -149,12 +99,11 @@ def main():
     parser = argparse.ArgumentParser(description = 'Distributed Chat')
     # parser.add_argument('name', type=str)
     parser.add_argument('port', type=int)
-    # parser.add_argument('number', type=int)
+    parser.add_argument('number', type=int)
     args = parser.parse_args()
     # name = args.name
     port = args.port
-    # num  = args.number
-    num = 1
+    num  = args.number - 1
 
     local = socket.gethostname()
     for i in all:
