@@ -30,7 +30,6 @@ class Server:
         count = 0
 
 
-        # since only bind with one client, not need for while loop
         while True:
             c, a = sockForListen.accept()
             cThread = threading.Thread(target=self.handler, args = (c,a))
@@ -39,17 +38,15 @@ class Server:
             connections.append(c)
             print(str(a[0]) + ':' + str(a[1]), "connected")
             count += 1
+            # break out the loop if all is connected
             if (count == num):
                 print("server set up")
-                break
+                # break
 
 
     def handler(self, c, a):
         while True:
             data = c.recv(1024)
-            # multicast sender here
-            # for connection in self.connections:
-            #         connection.send(bytes(data))
             print(str(data,'utf-8'))
             if not data:
                 # print fail message
@@ -100,7 +97,7 @@ def connectOther(port, num):
                     break
         # break out while loop
         if count == num:
-            print("all set")
+            print("Ready")
             break
 
     # start sending message to the socket
@@ -118,7 +115,6 @@ def main():
     # name = args.name
     port = args.port
     num  = args.number - 1
-    print(str(num))
 
     server = threading.Thread(target=Server, args=(port, num))
     client = threading.Thread(target=connectOther, args=(port, num))
