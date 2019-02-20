@@ -27,12 +27,16 @@ class Server:
         print("server running....")
 
         # count number of connection
+        count = 0
 
 
         # since only bind with one client, not need for while loop
         while True:
             c, a = sockForListen.accept()
             print(str(a[0]) + ':' + str(a[1]), "connected")
+            count += 1
+            if (count == num):
+                break
 
         
         self.handler(c, a)
