@@ -60,8 +60,7 @@ sockForSend = []
 
 # send message to target socket
 def sendMsg(sock, msg):
-    while True:
-        sock.send(bytes(msg, 'utf-8'))
+    sock.send(bytes(msg, 'utf-8'))
 
 
 # connect to other nodes' server using (n-1) sockets
@@ -101,9 +100,10 @@ def connectOther(port, num):
             break
 
     # sending message to the socket
-    msg = input("")
-    for sock in sockForSend:
-        sendMsg(sock, msg)
+    while True:
+        msg = input("")
+        for sock in sockForSend:
+            sendMsg(sock, msg)
 
 
 
