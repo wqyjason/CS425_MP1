@@ -29,7 +29,6 @@ class Server:
 
         while True:
             # since only bind with one client, not need for while loop
-            print("server error")
             c, a = sockForListen.accept()
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
@@ -116,7 +115,6 @@ def connectOther(port, num):
         for i in all:
             if i != local:
                 try:
-                    print("connect frozen")
                     sockForSend.connect((host, port))
                 except Exception as e:
                     # continue to next loop is connect failed
@@ -126,9 +124,11 @@ def connectOther(port, num):
 
                 # break if all nodes are connected
                 if count == num:
+                    print("break out")
                     break
         # break out while loop
         if count == num:
+            print("break out")
             break
 
     # start sending message to the socket
