@@ -32,6 +32,7 @@ class Server:
 
             # since only bind with one client, not need for while loop
             c, a = sockForListen.accept()
+            print(c)
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
                         # cThread.start()
