@@ -36,7 +36,7 @@ class Server:
             print(str(a[0]) + ':' + str(a[1]), "connected")
             count += 1
             if (count == num):
-                print("loop error")
+                print("server set up")
                 break
 
         
@@ -85,6 +85,7 @@ def connectOther(port, num):
 
                 # break if all nodes are connected
                 if count == num:
+                    print("all set inside")
                     break
         # break out while loop
         if count == num:
