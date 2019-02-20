@@ -31,7 +31,6 @@ class Server:
             # since only bind with one client, not need for while loop
             print("server error")
             c, a = sockForListen.accept()
-            print(c)
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
                         # cThread.start()
@@ -118,6 +117,7 @@ def connectOther(port, num):
             if i != local:
                 try:
                     sockForSend.connect((host, port))
+                    print("connect error")
                 except Exception as e:
                     # continue to next loop is connect failed
                     continue
