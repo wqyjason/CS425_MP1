@@ -15,7 +15,7 @@ servers = []
 
 class Server:
     # peers = []
-    def __init__(self, port):
+    def __init__(self, port, num):
         # set up sock for listening one node
         sockForListen = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sockForListen.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -23,12 +23,17 @@ class Server:
         # create server
         host = socket.gethostname();
         sockForListen.bind((host, port))
-        sockForListen.listen(1)
+        sockForListen.listen(num)
         print("server running....")
 
+        # count number of connection
+
+
         # since only bind with one client, not need for while loop
-        c, a = sockForListen.accept()
-        print(str(a[0]) + ':' + str(a[1]), "connected")
+        while True:
+            c, a = sockForListen.accept()
+            print(str(a[0]) + ':' + str(a[1]), "connected")
+
         
         self.handler(c, a)
 
@@ -84,15 +89,6 @@ def connectOther(port, num):
     sendMsg(sockForSend)
 
 
-# start server for other node
-def startServer(port):
-    # create one server and one client for each node
-    sThread = threading.Thread(target=Server, args=(port,))
-    # append the threads to array 
-    servers.append(sThread)
-    # start the thread
-    sThread.start()
-
 
 def main():
     # parse the command line
@@ -105,13 +101,14 @@ def main():
     port = args.port
     num  = args.number - 1
 
-    local = socket.gethostname()
-    for i in all:
-        if i != local:
-            startServer(port)
+    server = threading.Thread(target=Server, args=(port, num))
+    client = threading.Thread(target=connectOther, args=(port, num))
 
-    client = threading.Thread(target = connectOther, args=(port, num))
+    # start server and client
+    server.start()
     client.start()
+
+    # a signal handler here?
 
 
 # entry point for application
