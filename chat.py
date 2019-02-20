@@ -118,7 +118,6 @@ def connectOther(port, num):
     while True:
         for i in all:
             if i != local:
-                print("connect looping...")
                 try:
                     sockForSend.connect((host, port))
                 except Exception as e:
@@ -146,6 +145,7 @@ def startServer(port):
     servers.append(sThread)
     # start the thread
     sThread.start()
+    print("only one")
 
 
 def main():
