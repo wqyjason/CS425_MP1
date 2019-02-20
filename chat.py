@@ -153,7 +153,7 @@ def main():
             # "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
             # "sp19-cs425-g04-10.cs.illinois.edu" ]
     local = socket.gethostname()
-    print(str(socket.gethostbyname(local))
+    print(str(socket.gethostbyname(local)))
     for i in all:
         if i != local:
             start(i, 10006)
