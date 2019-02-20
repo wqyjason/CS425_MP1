@@ -126,11 +126,11 @@ def main():
     client.start()
 
     # print READY if all is connected
-    if server_checked and client_checked:
-        print("READY")
+    while True:
+        if server_checked and client_checked:
+            print("READY")
+            break
     
-    if server_checked == False and client_checked == False:
-        print("WHAT???")
 
     # a signal handler here?
 
