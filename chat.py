@@ -92,7 +92,6 @@ def handler(c, a):
 
         # get the name from each node and store them
         if "NAME&" in msg:
-            print("adding name...")
             hostName = msg.split('&')[1]
             continue
         # send the message
@@ -111,9 +110,9 @@ def handler(c, a):
                 print(hostName + ': ' + msg)
             # mutex to keep received thread-safe
             # remove handled info from received
-            mutex.acquire()
-            received.remove(msg)
-            mutex.release()
+        # mutex.acquire()
+        # received.remove(msg)
+        # mutex.release()
 
 
 
