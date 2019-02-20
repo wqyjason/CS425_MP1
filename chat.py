@@ -18,17 +18,17 @@ class Server:
     def __init__(self, port):
         # set up sock for listening one node
         sockForListen = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sockForListen.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # create server
         host = socket.gethostname();
-        sock.bind((host, port))
-        sock.listen(1)
+        sockForListen.bind((host, port))
+        sockForListen.listen(1)
         print("server running....")
                 # while True:
 
         # since only bind with one client, not need for while loop
-        c, a = sock.accept()
+        c, a = sockForListen.accept()
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
                         # cThread.start()
