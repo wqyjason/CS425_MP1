@@ -108,6 +108,7 @@ def start(ip, port):
     cThread.start()
 
 
+
     # while True:
     #         try:
     #                 print("Tring to connect ...")
@@ -147,8 +148,12 @@ def main():
     # port = args.port
     # num  = args.number
     # all = []
-    all = ["sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu"]
+    all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu" ]
+            # "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
+            # "sp19-cs425-g04-06.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
+            # "sp19-cs425-g04-10.cs.illinois.edu" ]
     local = socket.gethostname()
+    print(str(socket.gethostbyname(local))
     for i in all:
         if i != local:
             start(i, 10006)
