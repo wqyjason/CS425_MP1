@@ -116,6 +116,7 @@ def connectOther(port, num):
         for i in all:
             if i != local:
                 try:
+                    print("connect frozen")
                     sockForSend.connect((host, port))
                     print("connect error")
                 except Exception as e:
