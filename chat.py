@@ -26,9 +26,10 @@ class Server:
         sockForListen.bind((host, port))
         sockForListen.listen(1)
         print("server running....")
-        
+
         while True:
             # since only bind with one client, not need for while loop
+            print("server error")
             c, a = sockForListen.accept()
             print(c)
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
