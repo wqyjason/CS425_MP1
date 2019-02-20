@@ -5,64 +5,78 @@ import time
 import argparse
 from random import randint
 
+# each node build one server for other nodes and holds n-1 sockets to connect other servers
+# server-client is build based on TCP and it naturally formed a all-to-all scheme and when
+# any node failed, it will send EOF to all other nodes in the chat group, which every nodes
+# will detect its failure. 
+
+# TO DO !important: implement a reliable multicast and a causal ordering
+#                   adding name to each nodes
+
+
+# hard-coded IP addresses for VM
 all = [ "sp19-cs425-g04-01.cs.illinois.edu", "sp19-cs425-g04-02.cs.illinois.edu", "sp19-cs425-g04-03.cs.illinois.edu",
         "sp19-cs425-g04-04.cs.illinois.edu", "sp19-cs425-g04-05.cs.illinois.edu", "sp19-cs425-g04-06.cs.illinois.edu", 
         "sp19-cs425-g04-07.cs.illinois.edu", "sp19-cs425-g04-08.cs.illinois.edu", "sp19-cs425-g04-09.cs.illinois.edu", 
         "sp19-cs425-g04-10.cs.illinois.edu" ]
 
+# checker for when to print READY
 server_checked = False
 client_checked = False
 
+# holds all the connection of server
 connections = []
 
-class Server:
-    def __init__(self, port, num):
-        # set up sock for listening one node
-        sockForListen = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sockForListen.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-        # create server
-        host = socket.gethostname();
-        sockForListen.bind((host, port))
-        sockForListen.listen(num)
-        print("server running....")
-
-        # count number of connection
-        count = 0
-
-
-        while True:
-            c, a = sockForListen.accept()
-            # create thread for this connection listening
-            cThread = threading.Thread(target=self.handler, args = (c,a))
-            cThread.daemon = True
-            cThread.start()
-            connections.append(c)
-            count += 1
-            # break out the loop if all is connected
-            if (count == num):
-                print("server_checked")
-                global server_checked
-                server_checked = True
-                break
-
-
-    def handler(self, c, a):
-        while True:
-            data = c.recv(1024)
-            print(str(data,'utf-8'))
-            if not data:
-                # print fail message
-                fail = str(a[0]) + ':' + str(a[1]) + " has left"
-                print(fail)
-                c.close()
-                break
-
-
+# hold all the socket to send message
 sockForSend = []
 
+# build server for other nodes
+def buildServer(port, num):
+    # set up sock for listening one node
+    sockForListen = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sockForListen.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+    # create server
+    host = socket.gethostname();
+    sockForListen.bind((host, port))
+    sockForListen.listen(num)
+    print("server running....")
+
+    # count number of connection
+    count = 0
+
+
+    while True:
+        c, a = sockForListen.accept()
+        # create thread for this connection listening
+        cThread = threading.Thread(target=handler, args = (c,a))
+        cThread.daemon = True
+        cThread.start()
+        connections.append(c)
+        count += 1
+        # break out the loop if all is connected
+        if (count == num):
+            global server_checked
+            server_checked = True
+            break
+
+
+# handler for receiving messages
+# TO DO: adding multicast & causal ordering here?
+def handler(self, c, a):
+    while True:
+        data = c.recv(1024)
+        print(str(data,'utf-8'))
+        if not data:
+            # print fail message
+            fail = str(a[0]) + ':' + str(a[1]) + " has left"
+            print(fail)
+            c.close()
+            break
+
+
 # connect to other nodes' server using (n-1) sockets
-def connectOther(port, num):
+def connectServer(port, num):
     # initialize num sockets for sending
     for i in range(num):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -94,7 +108,6 @@ def connectOther(port, num):
                     break
         # break out while loop
         if count == num:
-            print("client_checked")
             global client_checked
             client_checked = True
             break
@@ -107,6 +120,7 @@ def connectOther(port, num):
 
 
 
+# TO DO: need to implement name
 def main():
     # parse the command line
     parser = argparse.ArgumentParser(description = 'Distributed Chat')
@@ -118,8 +132,8 @@ def main():
     port = args.port
     num  = args.number - 1
 
-    server = threading.Thread(target=Server, args=(port, num))
-    client = threading.Thread(target=connectOther, args=(port, num))
+    server = threading.Thread(target=buildServer, args=(port, num))
+    client = threading.Thread(target=connectServer, args=(port, num))
 
     # start server and client
     server.start()
@@ -130,6 +144,7 @@ def main():
             print("READY")
             break
 
+    
     # a signal handler here?
 
 
