@@ -77,7 +77,7 @@ def handler(c, a):
             hostName = msg.split('&')[1]
         # send the message
         else:
-            if msg != ''
+            if msg != '':
                 print(hostName + ': ' + msg)
         if not data:
             # print fail message
