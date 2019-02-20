@@ -55,14 +55,16 @@ class Server:
                 c.close()
                 break
 
+
+sockForSend = []
+
 # send message to target socket
 def sendMsg(sock):
     while True:
         for i in sock:
             i.send(bytes(input(""), 'utf-8'))
+            print("twice")
 
-
-sockForSend = []
 
 # connect to other nodes' server using (n-1) sockets
 def connectOther(port, num):
