@@ -103,7 +103,7 @@ def connectOther(port, num):
     # sending message to the socket
     msg = input("")
     for sock in sockForSend:
-        sendMsg(sock. msg)
+        sendMsg(sock, msg)
 
 
 
