@@ -51,7 +51,7 @@ mutex_r = Lock()
 mutex_h = Lock()
 
 # lock for handling timestamp
-mutex_t - Lock()
+mutex_t = Lock()
 
 
 # helper to get process number
@@ -158,13 +158,17 @@ def handler(c, a):
 
         # wait until condition meets for hold-back
         while True:
-            if :
+            if lessThan(sender_stamp, timestamp, sender_index):
                 # remove finished info from hold-back queue
                 holdBack.remove(info)
                  # avoid left bug
                 if msg != '':
                     print(msg)
+
+                # update timestamp
+                mutex_t.acquire()
                 timestamp[getN()] += 1;
+                mutex_t.release()
                 
 
 
