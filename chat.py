@@ -127,9 +127,8 @@ def main():
     server.start()
     client.start()
 
-    print("here")
-
-    if (server_checked and client_checked):
+    # print READY if all is connected
+    if server_checked and client_checked:
         print("READY")
 
     # a signal handler here?
