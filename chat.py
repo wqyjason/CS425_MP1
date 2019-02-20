@@ -84,6 +84,9 @@ def connectOther(port, num):
                 
                 count += 1
 
+                if count == 2:
+                    print("can do")
+
                 # break if all nodes are connected
                 if count == num:
                     print("all set inside")
