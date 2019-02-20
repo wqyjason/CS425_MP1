@@ -34,6 +34,7 @@ class Server:
 
         while True:
             c, a = sockForListen.accept()
+            # create thread for this connection listening
             cThread = threading.Thread(target=self.handler, args = (c,a))
             cThread.daemon = True
             cThread.start()
@@ -43,6 +44,7 @@ class Server:
             # break out the loop if all is connected
             if (count == num):
                 server_checked = True
+                print("server checked")
                 break
 
 
@@ -59,11 +61,6 @@ class Server:
 
 
 sockForSend = []
-
-# send message to target socket
-def sendMsg(sock, msg):
-    sock.send(bytes(msg, 'utf-8'))
-
 
 # connect to other nodes' server using (n-1) sockets
 def connectOther(port, num):
@@ -99,13 +96,14 @@ def connectOther(port, num):
         # break out while loop
         if count == num:
             client_checked = True
+            print("client checked")
             break
 
     # sending message to the socket
     while True:
         msg = input("")
         for sock in sockForSend:
-            sendMsg(sock, msg)
+            sock.send(bytes(msg, 'utf-8'))
 
 
 
@@ -130,6 +128,8 @@ def main():
     # print READY if all is connected
     if server_checked and client_checked:
         print("READY")
+    else if server_checked == False and client_checked == False:
+        print("WHAT???")
 
     # a signal handler here?
 
