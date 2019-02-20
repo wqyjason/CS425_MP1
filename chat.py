@@ -27,15 +27,16 @@ class Server:
         sockForListen.listen(1)
         print("server running....")
 
-        while True:
-            # since only bind with one client, not need for while loop
-            c, a = sockForListen.accept()
+        # while True:
+        # since only bind with one client, not need for while loop
+        c, a = sockForListen.accept()
                         # cThread = threading.Thread(target=self.handler, args = (c,a))
                         # cThread.daemon = True
                         # cThread.start()
                         # self.connections.append(c)
                         # self.peers.append(a[0])
-            print(str(a[0]) + ':' + str(a[1]), "connected")
+        print(str(a[0]) + ':' + str(a[1]), "connected")
+        break;
         
         self.handler(c, a)
                         # self.sendPeers()
@@ -142,7 +143,6 @@ def startServer(port):
     servers.append(sThread)
     # start the thread
     sThread.start()
-    print("only one")
 
 
 def main():
