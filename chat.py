@@ -95,7 +95,7 @@ def handler(c, a):
             print("adding name...")
             hostName = msg.split('&')[1]
         # send the message
-        else if msg not in received:
+        elif msg not in received:
             # mutex to keep received thread-safe
             # add message to received
             mutex.acquire()
