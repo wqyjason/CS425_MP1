@@ -67,12 +67,13 @@ def buildServer(port, num):
 # handler for receiving messages
 # TO DO: adding multicast & causal ordering here?
 def handler(c, a):
-    hostName = None
+    hostName = ""
     while True:
         data = c.recv(1024)
         msg = str(data, 'utf-8')
         # get the name from each node and store them
         if "NAME&" in msg:
+            print("adding name...")
             hostName = msg.split('&')[1]
         # send the message
         else:
