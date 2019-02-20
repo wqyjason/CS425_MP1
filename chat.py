@@ -154,7 +154,7 @@ def handler(c, a):
             mutex_r.release()
 
             # B-multicast to any other nodes
-            sendMsg(info)
+            sendMsg(sender_stamp, msg, sender_index)
 
         # wait until condition meets for hold-back
         while True:
