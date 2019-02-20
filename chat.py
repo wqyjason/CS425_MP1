@@ -4,6 +4,7 @@ import sys
 import time
 import argparse
 from random import randint
+from threading import Lock
 
 # each node build one server for other nodes and holds n-1 sockets to connect other servers
 # server-client is build based on TCP and it naturally formed a all-to-all scheme and when
@@ -29,8 +30,14 @@ connections = []
 # hold all the socket to send message
 sockForSend = []
 
+# received message from all nodes
+received = []
+
 # dictionary for host names
 hostName = {}
+
+# lock for handle received message
+mutex = Lock()
 
 
 # build server for other nodes
@@ -48,7 +55,6 @@ def buildServer(port, num):
     # count number of connection
     count = 0
 
-
     while True:
         c, a = sockForListen.accept()
         # create thread for this connection listening
@@ -64,27 +70,79 @@ def buildServer(port, num):
             break
 
 
-# handler for receiving messages
+# handler for receiving messages from one node
 # TO DO: adding multicast & causal ordering here?
 def handler(c, a):
+    global received
+    # name of this node
     hostName = ""
+
+    # receiving messages from this node
     while True:
         data = c.recv(1024)
         msg = str(data, 'utf-8')
-        # get the name from each node and store them
-        if "NAME&" in msg:
-            print("adding name...")
-            hostName = msg.split('&')[1]
-        # send the message
-        else:
-            if msg != '':
-                print(hostName + ': ' + msg)
+
+        # failure detector using EOF
         if not data:
             # print fail message
             fail = hostName + " has left"
             print(fail)
             c.close()
             break
+
+        # get the name from each node and store them
+        if "NAME&" in msg:
+            print("adding name...")
+            hostName = msg.split('&')[1]
+        # send the message
+        else if msg not in received:
+            # mutex to keep received thread-safe
+            # add message to received
+            mutex.acquire()
+            received.append(msg)
+            mutex.release()
+
+            # B-multicast to any other nodes
+            sendMsg(msg)
+
+            # avoid left bug
+            if msg != '':
+                print(hostName + ': ' + msg)
+        # mutex to keep received thread-safe
+        # remove handled info from received
+        mutex.acquire()
+        received.remove(msg)
+        mutex.release()
+
+
+
+# multicast group should be all the
+# clients on the current server thus
+# no need to keep track of multicast
+# group
+
+# message that one process has received
+
+
+# send message to all other nodes in the group
+def sendMsg(msg):
+    for sock in sockForSend:
+        sock.send(bytes(msg, 'utf-8'))
+
+
+
+# this should be run when other clients
+# received the message
+def receiver(m, sender):
+    # for integrity
+    if (m not in received):
+        received.append(m)
+        # sender don't have to send to others again
+        if (name != sender):
+            # forward message to other clients
+            sendMsg(m)
+        # deliver the message to node's dispaly
+        deliver(m)
 
 
 # connect to other nodes' server using (n-1) sockets
@@ -106,6 +164,7 @@ def connectServer(port, num, name):
                 try:
                     # connect each socket to each server
                     host = socket.gethostbyname(i)
+                    global sockForSend
                     sockForSend[count].connect((host, port))
                     # add the server to the array
                     connected.append(i)
@@ -132,8 +191,12 @@ def connectServer(port, num, name):
     # sending message to the socket
     while True:
         msg = input("")
-        for sock in sockForSend:
-            sock.send(bytes(msg, 'utf-8'))
+        global received
+        # append message to received when sender send it
+        mutex.acquire()
+        received.append(msg)
+        mutex.release()
+        sendMsg(msg)
 
 
 def main():
@@ -167,25 +230,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-
-# # multicast group should be all the
-# # clients on the current server thus
-# # no need to keep track of multicast
-# # group
-
-# # message that one process has received
-# received = []
-
-# # this should be run when other clients
-# # received the message
-# def receiver(m, sender):
-#     # for integrity
-#     if (m not in received):
-#         received.append(m)
-#         # sender don't have to send to others again
-#         if (name != sender):
-#             # forward message to other clients
-#             sendMsg(m)
-#         # deliver the message to node's dispaly
-#         deliver(m)
