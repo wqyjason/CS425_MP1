@@ -77,15 +77,18 @@ def connectOther(port, num):
 
     # count how many server connected
     count = 0
-    local = socket.gethostname()
+    # store the server that don't need to connect again
+    connected = [socket.gethostname()]
     # loop until connect all the servers
     while True:
         for i in all:
-            if i != local:
+            if i not in connected:
                 try:
                     # connect each socket to each server
                     host = socket.gethostbyname(i)
                     sockForSend[count].connect((host, port))
+                    # add the server to the array
+                    connected.append(i)
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
