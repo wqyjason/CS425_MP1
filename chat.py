@@ -36,6 +36,7 @@ class Server:
             print(str(a[0]) + ':' + str(a[1]), "connected")
             count += 1
             if (count == num):
+                print("loop error")
                 break
 
         
