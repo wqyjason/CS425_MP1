@@ -220,7 +220,7 @@ def connectServer(port, num, name):
 
                     # map index to host name
                     global clientToHost
-                    clientToHost[host] = i
+                    clientToHost[i] = count
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
