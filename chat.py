@@ -42,6 +42,9 @@ holdBack = []
 # timestamp for current process
 timestamp = []
 
+# used for failure detection
+clientToHost = {}
+
 
 
 # lock for handling received message
@@ -114,7 +117,10 @@ def buildServer(port, num):
 # handler for receiving messages from one node
 def handler(c, a):
     global received
-    # name of this node
+    # name of this chat
+    user = ""
+
+    # name of this node's host
     hostName = ""
 
     # receiving messages from this node
@@ -124,10 +130,10 @@ def handler(c, a):
         # failure detector using EOF
         if not data:
             # print fail message
-            fail = hostName + " has left"
+            fail = user + " has left"
             print(fail)
             c.close()
-            sockForSend.remove(socket.gethostbyname("sp19-cs425-g04-03.cs.illinois.edu"))
+            sockForSend.pop(clientToHost[hostName])
             break
 
         # deserialize the data
@@ -138,7 +144,8 @@ def handler(c, a):
 
         # get the name from each node and store them
         if "NAME&" in info[1]:
-            hostName = info[1].split('&')[1]
+            user = info[1].split('&')[1]
+            host = info[1].split('&')[2]
             continue
 
         # separate the info
@@ -197,6 +204,8 @@ def connectServer(port, num, name):
     count = 0
     # store the server that don't need to connect again
     connected = [socket.gethostname()]
+
+    print(socket.gethostname())
     # loop until connect all the servers
     while True:
         for i in all:
@@ -207,6 +216,10 @@ def connectServer(port, num, name):
                     sockForSend[count].connect((host, port))
                     # add the server to the array
                     connected.append(i)
+
+                    # map index to host name
+                    global clientToHost
+                    clientToHost[host] = i
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
@@ -226,7 +239,7 @@ def connectServer(port, num, name):
     p_num = getN()
 
     # send the name of this node to every server
-    msg = "NAME&" + name
+    msg = "NAME&" + name + "&" + str(socket.gethostname())
     for sock in sockForSend:
         info = pickle.dumps([timestamp, msg, p_num])
         sock.send(info)
