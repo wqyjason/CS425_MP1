@@ -144,8 +144,9 @@ def handler(c, a):
 
         # get the name from each node and store them
         if "NAME&" in info[1]:
-            user = info[1].split('&')[1]
-            host = info[1].split('&')[2]
+            temp = info[1].split('&')
+            user = temp[1]
+            hostName = temp[2]
             continue
 
         # separate the info
