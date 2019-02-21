@@ -273,7 +273,7 @@ def main():
 
     # initialize hold back queue
     global timestamp
-    timestamp = [0] * (num + 1)
+    timestamp = [0] * 10
 
     server = threading.Thread(target=buildServer, args=(port, num))
     client = threading.Thread(target=connectServer, args=(port, num), kwargs={"name": name})
