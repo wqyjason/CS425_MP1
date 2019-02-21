@@ -247,7 +247,8 @@ def connectServer(port, num, name):
 
         # sendMsg(timestamp, msg, p_num)
         # for multicast test
-        sockForSend[0].send(timestamp, msg, p_num)
+        info = pickle.dumps([timestamp, msg, p_num])
+        sockForSend[0].send(info)
 
 
 def main():
