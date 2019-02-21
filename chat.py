@@ -98,7 +98,6 @@ def buildServer(port, num):
 
     while True:
         c, a = sockForListen.accept()
-        print(c)
         print(a)
         # create thread for this connection listening
         cThread = threading.Thread(target=handler, args = (c,a))
@@ -129,7 +128,7 @@ def handler(c, a):
             fail = hostName + " has left"
             print(fail)
             c.close()
-            sockForSend.remove()
+            sockForSend.remove(a)
             break
 
         # deserialize the data
@@ -189,6 +188,7 @@ def sendMsg(timestamp, msg, p_num):
 # connect to other nodes' server using (n-1) sockets
 def connectServer(port, num, name):
     # initialize num sockets for sending
+    global sockForSend
     for i in range(num):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
