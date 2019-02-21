@@ -243,12 +243,10 @@ def connectServer(port, num, name):
         timestamp[p_num] += 1
         mutex_t.release()
 
-        # for p in timestamp: print(p)
-
-        # sendMsg(timestamp, msg, p_num)
+        sendMsg(timestamp, msg, p_num)
         # for multicast test
-        info = pickle.dumps([timestamp, msg, p_num])
-        sockForSend[0].send(info)
+        # info = pickle.dumps([timestamp, msg, p_num])
+        # sockForSend[0].send(info)
 
 
 def main():
