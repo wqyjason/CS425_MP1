@@ -98,7 +98,6 @@ def buildServer(port, num):
 
     while True:
         c, a = sockForListen.accept()
-        print(a)
         # create thread for this connection listening
         cThread = threading.Thread(target=handler, args = (c,a))
         cThread.daemon = True
@@ -128,7 +127,7 @@ def handler(c, a):
             fail = hostName + " has left"
             print(fail)
             c.close()
-            sockForSend.remove(a)
+            sockForSend.remove(a[0])
             break
 
         # deserialize the data
