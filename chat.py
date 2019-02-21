@@ -127,7 +127,7 @@ def handler(c, a):
             fail = hostName + " has left"
             print(fail)
             c.close()
-            sockForSend.remove(a[0])
+            sockForSend.remove(socket.gethostbyname("sp19-cs425-g04-03.cs.illinois.edu"))
             break
 
         # deserialize the data
