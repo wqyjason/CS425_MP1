@@ -193,7 +193,7 @@ def sendMsg(timestamp, msg, p_num):
         if sock != None:
           # serialize timestamp and message together 
           info = pickle.dumps([timestamp, msg, p_num])
-           sock.send(info)
+          sock.send(info)
 
 
 # connect to other nodes' server using (n-1) sockets
