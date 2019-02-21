@@ -204,7 +204,6 @@ def connectServer(port, num, name):
     # store the server that don't need to connect again
     connected = [socket.gethostname()]
 
-    print(socket.gethostname())
     # loop until connect all the servers
     while True:
         for i in all:
