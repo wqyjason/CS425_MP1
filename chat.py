@@ -245,9 +245,9 @@ def connectServer(port, num, name):
 
         # for p in timestamp: print(p)
 
-        sendMsg(timestamp, msg, p_num)
+        # sendMsg(timestamp, msg, p_num)
         # for multicast test
-        # sockForSend[0].send(bytes(msg, 'utf-8'))
+        sockForSend[0].send(timestamp, msg, p_num)
 
 
 def main():
