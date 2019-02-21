@@ -136,8 +136,7 @@ def handler(c, a):
             print(fail)
             c.close()
             mutex_s.acquire()
-            print(clientToHost[hostName])
-            sockForSend.pop(clientToHost[hostName])
+            sockForSend[clientToHost[hostName]] = None
             mutex_s.release()
             break
 
@@ -191,9 +190,10 @@ def handler(c, a):
 # send message to all other nodes in the group
 def sendMsg(timestamp, msg, p_num):
     for sock in sockForSend:
-        # serialize timestamp and message together 
-        info = pickle.dumps([timestamp, msg, p_num])
-        sock.send(info)
+        if sock != None:
+          # serialize timestamp and message together 
+          info = pickle.dumps([timestamp, msg, p_num])
+           sock.send(info)
 
 
 # connect to other nodes' server using (n-1) sockets
@@ -224,7 +224,6 @@ def connectServer(port, num, name):
                     # map index to host name
                     global clientToHost
                     clientToHost[i] = count
-                    print(count)
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
