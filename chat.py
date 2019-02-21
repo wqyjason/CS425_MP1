@@ -56,6 +56,9 @@ mutex_h = Lock()
 # lock for handling timestamp
 mutex_t = Lock()
 
+# lock for client sockets
+mutex_s = Lock()
+
 
 # helper to get process number
 def getN():
@@ -132,7 +135,9 @@ def handler(c, a):
             fail = user + " has left"
             print(fail)
             c.close()
+            mutex_s.acquire()
             sockForSend.pop(clientToHost[hostName])
+            mutex_s.release()
             break
 
         # deserialize the data
