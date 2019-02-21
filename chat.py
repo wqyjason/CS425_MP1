@@ -136,6 +136,7 @@ def handler(c, a):
             print(fail)
             c.close()
             mutex_s.acquire()
+            print(clientToHost[hostName])
             sockForSend.pop(clientToHost[hostName])
             mutex_s.release()
             break
@@ -223,6 +224,7 @@ def connectServer(port, num, name):
                     # map index to host name
                     global clientToHost
                     clientToHost[i] = count
+                    print(count)
                 except Exception as e:
                     # continue to next loop if connect failed
                     continue
