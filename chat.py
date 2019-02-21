@@ -92,7 +92,6 @@ def buildServer(port, num):
     host = socket.gethostname()
     sockForListen.bind((host, port))
     sockForListen.listen(num)
-    print("server running....")
 
     # count number of connection
     count = 0
@@ -180,7 +179,6 @@ def handler(c, a):
             timestamp[sender_index] += 1
             mutex_t.release()
 
-            # break
                 
 
 
@@ -260,9 +258,6 @@ def connectServer(port, num, name):
         mutex_t.release()
 
         sendMsg(timestamp, msg, p_num)
-        # for multicast test
-        # info = pickle.dumps([timestamp, msg, p_num])
-        # sockForSend[0].send(info)
 
 
 def main():
