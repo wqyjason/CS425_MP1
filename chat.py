@@ -157,21 +157,21 @@ def handler(c, a):
             sendMsg(sender_stamp, msg, sender_index)
 
         # wait until condition meets for hold-back
-        # while True:
-        if lessThan(sender_stamp, timestamp, sender_index):
+        while True:
+            if lessThan(sender_stamp, timestamp, sender_index):
 
-            # remove finished info from hold-back queue
-            holdBack.remove(info)
-             # avoid left bug
-            if msg != '':
-                print(msg)
+                # remove finished info from hold-back queue
+                holdBack.remove(info)
+                 # avoid left bug
+                if msg != '':
+                    print(msg)
 
-            # update timestamp
-            mutex_t.acquire()
-            timestamp[sender_index] += 1
-            mutex_t.release()
+                # update timestamp
+                mutex_t.acquire()
+                timestamp[sender_index] += 1
+                mutex_t.release()
 
-            # break
+                break
                 
 
 
